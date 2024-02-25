@@ -48,19 +48,7 @@ const getPlants = async (req, res, next) => {
   }
 };
 
-const deletePlant = async (req, res, next) => {
-  const { plant_id } = req.params;
-  try {
-    const plant = await Plant.findByIdAndDelete(plant_id);
-    if (!plant) {
-      return res.status(404).send({ err: "plant ID not found" });
-    }
-    res.status(200).send({ plant: plant });
-  } catch (err) {
-    res.status(404).send("Error getting plants");
-    next(err);
-  }
-};
+
 
 module.exports = {
   postPlant,
