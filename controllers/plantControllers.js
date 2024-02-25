@@ -53,5 +53,4 @@ const getPlants = async (req, res, next) => {
 module.exports = {
   postPlant,
   getPlants,
-  deletePlant,
 };
