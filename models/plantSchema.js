@@ -22,7 +22,7 @@ const plantSchema = new Schema({
     type: Number,
     default: () => Date.now() + 10 * (24 * 3600000),
     required: true,
-  },
+  }, 
   foodDate: {
     type: Number,
     default: () => Date.now() + 10 * (24 * 3600000),
