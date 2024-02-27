@@ -2,14 +2,23 @@ const Plant = require("../models/plantSchema");
 const User = require("../models/userSchema");
 
 const postPlant = async (req, res, next) => {
-  const { name, description, username, food_inc, water_inc, image_url } =
-    req.body;
+  const {
+    name,
+    species,
+    description,
+    username,
+    food_inc,
+    water_inc,
+    image_url,
+  } = req.body;
+  console.log(req.body.species);
   try {
     const user1 = await User.findOne({ username: username });
     const user_id = user1._id;
-
+      console.log(user1._id, "_ID")
     const plant = await Plant.create({
       name: name,
+      species: species,
       description: description,
       user_id: user_id,
       image_url: image_url,
@@ -21,12 +30,14 @@ const postPlant = async (req, res, next) => {
 
     const user = await User.findById(user_id);
     user.plants.push(plant._id);
+    console.log(plant, "Plant")
 
     await user.save();
     res.status(201).send({ plant: plant });
   } catch (err) {
     if (
       !name ||
+      !species ||
       !description ||
       !username ||
       !food_inc ||
@@ -48,8 +59,28 @@ const getPlants = async (req, res, next) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+const getPlantById = async (req, res, next) => {
+  const { plant_id } = req.params;
+  try {
+    const plant = await Plant.findById(plant_id);
+    if (!plant) {
+      return res.status(404).send({ err: "plant ID not found" });
+    }
+    res.status(200).send({ plant: plant });
+  } catch (err) {
+    res.status(404).send("Error getting plants");
+    next(err);
+  }
+};
+>>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
 
 module.exports = {
   postPlant,
   getPlants,
+<<<<<<< HEAD
+=======
+  getPlantById,
+>>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
 };
