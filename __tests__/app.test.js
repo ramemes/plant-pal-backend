@@ -184,35 +184,10 @@ describe("POST /api/plants", () => {
       });
   });
 });
-// describe("DELETE /api/users/username/plants/:plant_id", () => {
-//   test("Status Code: 200 and delete plant successfully ", () => {
-//     const id = testPlantId.toString();
-//     return request(app)
-//       .delete(`/api/users/strawberry123/plants/${id}`)
-//       .expect(204);
-//   });
 
-//   test("Status Code: 404", () => {
-//     return request(app)
-//       .delete("/api/users/rt54h45h/plants/rty45h45h")
-//       .expect(404)
-//       .then((response) => {
-//         expect(response.text).toBe("Plant doesn't exist");
-//       });
-//   });
 
-//   test("non existent plant id ", () => {
-//     return request(app)
-//       .delete("/api/users/strawberry123/plants/rty45h45h")
-//       .expect(404)
-//       .then((response) => {
-//         expect(response.text).toBe("Plant doesn't exist");
-//       });
-//   });
-// });
-
-describe("PATCH /api/users/username/plants/:plant_id", () => {
-  test("Status Code: 200 and update", () => {
+describe("PATCH /api/users/:username/plants/:plant_id", () => {
+  test("Status Code: 201 and update", () => {
     const id = testPlantId.toString();
     console.log(id, "<id");
     return request(app)
@@ -221,9 +196,64 @@ describe("PATCH /api/users/username/plants/:plant_id", () => {
         water_plant: true,
         feed_plant: true,
       })
-      .expect(204)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.plant).toHaveProperty("name");
+        expect(body.plant).toHaveProperty("description");
+        expect(body.plant).toHaveProperty("createdAtDate");
+        expect(body.plant).toHaveProperty("waterDate");
+        expect(body.plant).toHaveProperty("foodDate");
+        expect(body.plant).toHaveProperty("image_url");
+        expect(body.plant).toHaveProperty("species");
+      });
+  });
+  test("returns 200 and updated image list", () => {
+    const id = testPlantId.toString();
+    console.log(id, "<id");
+    return request(app)
+      .patch(`/api/users/strawberry123/plants/${id}`)
+      .send({
+        images: ["https://i.ibb.co/xXMbNb3/defaultplant-480.png"]
+      })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.plant).toHaveProperty("name");
+        expect(body.plant).toHaveProperty("description");
+        expect(body.plant).toHaveProperty("createdAtDate");
+        expect(body.plant).toHaveProperty("waterDate");
+        expect(body.plant).toHaveProperty("foodDate");
+        expect(body.plant).toHaveProperty("image_url");
+        expect(body.plant).toHaveProperty("species");
+        expect(body.plant).toHaveProperty("images");
+        expect(body.plant.images).toEqual(["https://i.ibb.co/xXMbNb3/defaultplant-480.png"])
+      });
+  });
+});
+
+
+describe("DELETE /api/users/username/plants/:plant_id", () => {
+  test("Status Code: 200 and delete plant successfully ", () => {
+    const id = testPlantId.toString();
+    return request(app)
+      .delete(`/api/users/strawberry123/plants/${id}`)
+      .expect(204);
+  });
+
+  test("Status Code: 404", () => {
+    return request(app)
+      .delete("/api/users/rt54h45h/plants/rty45h45h")
+      .expect(404)
       .then((response) => {
-        console.log(response.body, "patch response");
+        expect(response.text).toBe("Plant doesn't exist");
+      });
+  });
+
+  test("non existent plant id ", () => {
+    return request(app)
+      .delete("/api/users/strawberry123/plants/rty45h45h")
+      .expect(404)
+      .then((response) => {
+        expect(response.text).toBe("Plant doesn't exist");
       });
   });
 });

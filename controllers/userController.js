@@ -74,26 +74,8 @@ const deletePlant = async (req, res, next) => {
 };
 
 const patchPlant = async (req, res, next) => {
-<<<<<<< HEAD
-  const { plant_id } = req.params
-  const { water_plant, feed_plant } = req.body;
-
-  try {
-
-    const plant = await Plant.findById(plant_id);
-    
-    if (water_plant) {
-      plant.waterDate = Date.now() + plant.waterInterval
-    }
-    if (feed_plant) {
-      plant.foodDate = Date.now() + plant.foodInterval
-    }
-    await plant.save()
-    const updatedPlant = await Plant.findById(plant_id)
-    res.status(204).send({plant:updatedPlant});
-=======
-  const { plant_id } = req.params;
-  const { water_plant, feed_plant, image_url } = req.body;
+  const { username, plant_id } = req.params;
+  const { water_plant, feed_plant, image_url, images } = req.body;
   const currentDate = Date.now()
   try {
     const plant = await Plant.findById(plant_id);
@@ -106,13 +88,15 @@ const patchPlant = async (req, res, next) => {
     if (image_url) {
       plant.image_url = image_url
     }
+    if (images) {
+      plant.images = images
+    }
     await plant.save();
-    console.log(plant.waterDate , "waterDate after saving")
 
-    // console.log(plant_id, "<---- plant id before finding updated plant");
+    const updatedPlant = await Plant.findById(plant_id)
 
-    res.status(204).send({ plant: plant });
->>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
+    console.log(plant)
+    res.status(200).send({ plant: updatedPlant });
   } catch (err) {
     res.status(404).send("Plant doesn't exist");
     next(err);
@@ -125,9 +109,5 @@ module.exports = {
   postUser,
   getUsers,
   deletePlant,
-<<<<<<< HEAD
-  patchPlant
-=======
   patchPlant,
->>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
 };

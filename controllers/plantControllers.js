@@ -59,8 +59,6 @@ const getPlants = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 const getPlantById = async (req, res, next) => {
   const { plant_id } = req.params;
   try {
@@ -74,13 +72,9 @@ const getPlantById = async (req, res, next) => {
     next(err);
   }
 };
->>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
 
 module.exports = {
   postPlant,
   getPlants,
-<<<<<<< HEAD
-=======
   getPlantById,
->>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
 };

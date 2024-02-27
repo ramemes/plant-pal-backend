@@ -10,6 +10,7 @@ const plantSchema = new Schema({
     type: String,
     default: "https://i.ibb.co/xXMbNb3/defaultplant-480.png",
   },
+  images: [String],
   createdAtDate: {
     type: Number,
     default: () => Date.now(),
@@ -22,15 +23,9 @@ const plantSchema = new Schema({
   },
   waterInterval: {
     type: Number,
-<<<<<<< HEAD
-    default: () => 10 * (24 * 3600000),
-    required: true,
-  }, 
-=======
     default: () => 10 * oneDayInMilliseconds,
     required: true,
   },
->>>>>>> 25a01b409f2f2a3f54cfb6fe88e7bdd2369de7ae
   foodDate: {
     type: Number,
     default: () => Date.now() + 10 * oneDayInMilliseconds,
