@@ -213,7 +213,7 @@ describe("PATCH /api/users/:username/plants/:plant_id", () => {
     return request(app)
       .patch(`/api/users/strawberry123/plants/${id}`)
       .send({
-        images: ["https://i.ibb.co/xXMbNb3/defaultplant-480.png"]
+        image: "https://i.ibb.co/xXMbNb3/defaultplant-480.png"
       })
       .expect(200)
       .then(({ body }) => {
