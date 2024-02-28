@@ -228,11 +228,32 @@ describe("PATCH /api/users/:username/plants/:plant_id", () => {
         expect(body.plant.images).toEqual(["https://i.ibb.co/xXMbNb3/defaultplant-480.png"])
       });
   });
+  test("returns unchanged for body sent with falsey values", () => {
+    const id = testPlantId.toString();
+    console.log(id, "<id");
+    return request(app)
+      .patch(`/api/users/strawberry123/plants/${id}`)
+      .send({
+        image: false
+      })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.plant).toHaveProperty("name");
+        expect(body.plant).toHaveProperty("description");
+        expect(body.plant).toHaveProperty("createdAtDate");
+        expect(body.plant).toHaveProperty("waterDate");
+        expect(body.plant).toHaveProperty("foodDate");
+        expect(body.plant).toHaveProperty("image_url");
+        expect(body.plant).toHaveProperty("species");
+        expect(body.plant).toHaveProperty("images");
+        expect(body.plant.images).toEqual([])
+      });
+  });
 });
 
 
 describe("DELETE /api/users/username/plants/:plant_id", () => {
-  test("Status Code: 200 and delete plant successfully ", () => {
+  test("Status Code: 204 and delete plant successfully ", () => {
     const id = testPlantId.toString();
     return request(app)
       .delete(`/api/users/strawberry123/plants/${id}`)

@@ -75,7 +75,7 @@ const deletePlant = async (req, res, next) => {
 
 const patchPlant = async (req, res, next) => {
   const { username, plant_id } = req.params;
-  const { water_plant, feed_plant, image_url, image } = req.body;
+  const { water_plant, feed_plant, image_url, image, name, species} = req.body;
   const currentDate = Date.now()
   try {
     const plant = await Plant.findById(plant_id);
@@ -90,6 +90,12 @@ const patchPlant = async (req, res, next) => {
     }
     if (image) {
       plant.images.push(image)
+    }
+    if (name) {
+      plant.name= name
+    }
+    if (species) {
+      plant.species= species
     }
     await plant.save();
 
